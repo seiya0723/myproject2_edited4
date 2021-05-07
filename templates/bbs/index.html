@@ -1,0 +1,86 @@
+{% load static %}
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'bbs/css/style.css' %}">
+    <script src="{% static 'bbs/js/script.js' %}"></script>
+
+    <style>
+    .example1 {
+    width: 300px;
+    height: 180px;
+    }
+    </style>
+</head>
+<body>
+
+<h1>helow world!</h1>
+
+<img class="example1" src="{% static 'bbs/img/cat.jpeg' %}">
+
+<form action="" method="get">
+    <input type="text" name="search" placeholder="検索したいタイトルを指定" value="{{ request.GET.search }}">
+    <input type="submit" value="検索">
+</form>
+
+
+
+<form action="" method="post">
+    {% csrf_token %}
+    <input type="text" name="title">
+    <input type="text" name="comment">
+    <input type="number" name="price">
+    <input type="submit" value="投稿">
+</form>
+
+{% if topics %}
+<table>
+    {% for topic in topics %}
+    <tr>
+        <td>{{ topic.id }}</td>
+        <td>{{ topic.title }}</td>
+        <td>{{ topic.comment }}</td>
+        <td>{{ topic.price }}</td>
+        <td>
+           <form action="{% url 'bbs:delete' topic.id %}" method="POST">
+               {% csrf_token %}
+               <input type="submit" value="削除">
+           </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endif %}
+
+<div style="border:solid 1px orange;">
+    <div></div>
+    <div></div>
+</div>
+
+
+<form action="" method="GET">
+    <input type="text" name="search" placeholder="キーワードを入力してください">
+    <input type="text" name="category" placeholder="カテゴリを入力してください">
+    <input type="submit" value="送信">
+</form>
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <input type="text" name="comment" placeholder="コメントを入力してください">
+    <input type="text" name="anti" placeholder="反対コメントを入力してください">
+    <input type="submit" value="送信">
+</form>
+
+<p>{{ chobo }}</p>
+
+{% for chobo in chobos %}
+<div style="border:solid 0.2rem orange; padding:0.25rem;">
+    <div>{{ chobo.id }}</div>
+    <div>{{ chobo.title }}</div>
+    <div>{{ chobo.price }}</div>
+</div>
+{% endfor %}
+
+</body>
+
+</html>
