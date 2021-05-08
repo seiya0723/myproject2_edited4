@@ -21,14 +21,13 @@ class BbsView(View):
         else:
             topics = Topic.objects.all()
 
-
         """
         #スペース区切りで複数単語検索ができる
         if "search" in request.GET:
 
             #(1)キーワードが空欄もしくはスペースのみの場合、ページにリダイレクト
             if request.GET["search"] == "" or request.GET["search"].isspace():
-                return redirect("shopping:index")
+                return redirect("bbs:index")
 
             #(2)キーワードをリスト化させる(複数指定の場合に対応させるため)
             search      = request.GET["search"].replace("　"," ")
@@ -38,14 +37,14 @@ class BbsView(View):
             query       = Q()
             for word in search_list:
                 #TIPS:AND検索の場合は&を、OR検索の場合は|を使用する。
-                query &= Q(title__contains=word)
+                query |= Q(title__contains=word)
 
             #(4)作ったクエリを実行
             topics  = Topic.objects.filter(query)
         else:
             topics  = Topic.objects.all()
-
         """
+
 
         chobos = [
             {"id": "0", "title": "現金", "price": "3000"},
